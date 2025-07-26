@@ -666,7 +666,7 @@ sub get_playlist {
     # Store the base path for this channel ID
     $self->{channel_base_paths}->{$channel_id} = $base_path;
     
-    main::log_trace("Processing playlist - URL: $url");
+    main::log_info("Processing playlist - URL: $url");
     main::log_trace("Processing playlist - Base URL: $base_url");
     main::log_trace("Processing playlist - Base path: $base_path");
     main::log_trace("Stored base path for channel $channel_id: $base_path");
@@ -721,7 +721,7 @@ sub get_segment {
         gupId    => $gup_id,
     );
     
-    main::log_trace("Getting segment: $uri");
+    main::log_info("Getting segment: $url");
     main::log_trace("Channel ID: $channel_id, Base path: $base_path");
     
     my $response = $self->{ua}->get($uri);
@@ -914,7 +914,7 @@ sub handle_http_request {
         my $channel = $path;
         $channel =~ s/^\/(.+)\.m3u8$/$1/;
         
-        main::log_info("Playlist request for channel: $channel");
+        main::log_debug("Playlist request for channel: $channel");
         
         my $data = $sxm->get_playlist($channel);
         if ($data) {
