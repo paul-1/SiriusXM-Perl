@@ -827,7 +827,9 @@ sub get_simplified_channel_info {
         
         if ($channel_name eq $name || $channel_id eq $name || $sirius_number eq $name) {
             main::log_debug("Found channel for simplified info: $name -> $channel->{channelId}");
-            
+            my $data = $self->{json}->encode($channel);
+            main::log_trace("Channel content: $data");
+
             # Extract simplified channel information
             my $simplified_info = {
                 channelId => $channel->{channelId},
@@ -836,8 +838,8 @@ sub get_simplified_channel_info {
             };
             
             # Get the URL of the 4th image (index 3) from the images array
-            if (defined $channel->{images} && ref($channel->{images}) eq 'ARRAY' && @{$channel->{images}} > 3) {
-                $simplified_info->{imageUrl} = $channel->{images}->[3]->{url};
+            if (defined $channel->{images}->{images} && ref($channel->{images}->{images}) eq 'ARRAY' && @{$channel->{images}->{images}} > 3) {
+                $simplified_info->{imageUrl} = $channel->{images}->{images}->[3]->{url};
             }
             
             return $simplified_info;
