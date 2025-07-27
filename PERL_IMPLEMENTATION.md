@@ -113,6 +113,7 @@ When the server is running, it provides these endpoints:
 - `http://localhost:PORT/CHANNEL.m3u8` - Playlist for channel
 - `http://localhost:PORT/path/to/segment.aac` - Audio segments
 - `http://localhost:PORT/key/1` - Encryption key
+- `http://localhost:PORT/channel/CHANNEL` - Simplified channel information (JSON)
 
 Where:
 - `PORT` is the configured port (default 9999)
@@ -123,7 +124,31 @@ Where:
 http://localhost:9999/siriushits1.m3u8
 http://localhost:9999/coffeehouse.m3u8
 http://localhost:9999/2.m3u8
+http://localhost:9999/channel/siriushits1
+http://localhost:9999/channel/17
+http://localhost:9999/channel/ESPN%20Radio
 ```
+
+### Channel Info Endpoint
+
+The new `/channel/CHANNEL` endpoint returns simplified channel information as JSON:
+
+```json
+{
+  "channelId": "siriushits1",
+  "siriusChannelNumber": 2,
+  "name": "SiriusXM Hits 1",
+  "imageUrl": "https://example.com/image4.jpg"
+}
+```
+
+**Fields returned:**
+- `channelId` - The unique channel identifier
+- `siriusChannelNumber` - The channel number (renamed from channelNumber)
+- `name` - The channel display name
+- `imageUrl` - URL of the 4th image from the images array (if available)
+
+**Note:** The `imageUrl` field is only included if the channel has at least 4 images in its images array.
 
 ## Technical Implementation
 

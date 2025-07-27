@@ -814,6 +814,40 @@ sub get_channel {
     return (undef, undef);
 }
 
+sub get_simplified_channel_info {
+    my ($self, $name) = @_;
+    
+    $name = lc($name);
+    my $channels = $self->get_channels();
+    
+    for my $channel (@$channels) {
+        my $channel_name = lc($channel->{name} || '');
+        my $channel_id = lc($channel->{channelId} || '');
+        my $sirius_number = $channel->{siriusChannelNumber} || '';
+        
+        if ($channel_name eq $name || $channel_id eq $name || $sirius_number eq $name) {
+            main::log_debug("Found channel for simplified info: $name -> $channel->{channelId}");
+            
+            # Extract simplified channel information
+            my $simplified_info = {
+                channelId => $channel->{channelId},
+                siriusChannelNumber => $channel->{siriusChannelNumber},
+                name => $channel->{name}
+            };
+            
+            # Get the URL of the 4th image (index 3) from the images array
+            if (defined $channel->{images} && ref($channel->{images}) eq 'ARRAY' && @{$channel->{images}} > 3) {
+                $simplified_info->{imageUrl} = $channel->{images}->[3]->{url};
+            }
+            
+            return $simplified_info;
+        }
+    }
+    
+    main::log_warn("Channel not found for simplified info: $name");
+    return undef;
+}
+
 1;
 
 #=============================================================================
@@ -963,6 +997,27 @@ sub handle_http_request {
         eval { $client->send_response($response); };
         if ($@) {
             main::log_warn("Error sending key response: $@");
+        }
+    }
+    elsif ($path =~ /^\/channel\/(.+)$/) {
+        # Handle channel info requests
+        my $channel = $1;
+        
+        main::log_debug("Channel info request for: $channel");
+        
+        my $channel_info = $sxm->get_simplified_channel_info($channel);
+        if ($channel_info) {
+            my $json_data = $sxm->{json}->encode($channel_info);
+            my $response = HTTP::Response->new(200);
+            $response->content_type('application/json');
+            $response->header('Connection', 'close');
+            $response->content($json_data);
+            eval { $client->send_response($response); };
+            if ($@) {
+                main::log_warn("Error sending channel info response: $@");
+            }
+        } else {
+            send_error_response($client, 404, 'Channel Not Found');
         }
     }
     else {
