@@ -1004,10 +1004,15 @@ sub handle_http_request {
     elsif ($path =~ /^\/channel\/(.+)$/) {
         # Handle channel info requests
         my $channel = $1;
+        my $channel_info;
         
         main::log_debug("Channel info request for: $channel");
         
-        my $channel_info = $sxm->get_simplified_channel_info($channel);
+        if ( $channel eq 'all' ) {
+            $channel_info = $sxm->get_channels();
+        } else {
+            $channel_info = $sxm->get_simplified_channel_info($channel);
+        }
         if ($channel_info) {
             my $json_data = $sxm->{json}->encode($channel_info);
             my $response = HTTP::Response->new(200);
