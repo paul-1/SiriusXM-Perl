@@ -114,10 +114,12 @@ When the server is running, it provides these endpoints:
 - `http://localhost:PORT/path/to/segment.aac` - Audio segments
 - `http://localhost:PORT/key/1` - Encryption key
 - `http://localhost:PORT/channel/CHANNEL` - Simplified channel information (JSON)
+- `http://localhost:PORT/now-playing/CHANNEL_IDS` - Now-playing information (JSON)
 
 Where:
 - `PORT` is the configured port (default 9999)
 - `CHANNEL` is the channel name, ID, or Sirius channel number
+- `CHANNEL_IDS` is a single channel ID or comma-separated list of channel IDs
 
 ### Example URLs
 ```
@@ -127,6 +129,9 @@ http://localhost:9999/2.m3u8
 http://localhost:9999/channel/siriushits1
 http://localhost:9999/channel/17
 http://localhost:9999/channel/ESPN%20Radio
+http://localhost:9999/now-playing/siriushits1
+http://localhost:9999/now-playing/siriushits1,thepulse
+http://localhost:9999/now-playing/2,5,17
 ```
 
 ### Channel Info Endpoint
@@ -149,6 +154,38 @@ The new `/channel/CHANNEL` endpoint returns simplified channel information as JS
 - `imageUrl` - URL of the 4th image from the images array (if available)
 
 **Note:** The `imageUrl` field is only included if the channel has at least 4 images in its images array.
+
+### Now-Playing Information Endpoint
+
+The new `/now-playing/CHANNEL_IDS` endpoint returns current track information for the specified channels:
+
+```json
+{
+  "channelId1": {
+    "track": "Song Title",
+    "artist": "Artist Name",
+    "album": "Album Name",
+    // ... additional track information
+  },
+  "channelId2": {
+    "track": "Another Song",
+    "artist": "Another Artist",
+    "album": "Another Album",
+    // ... additional track information
+  }
+}
+```
+
+**Usage examples:**
+- Single channel: `/now-playing/siriushits1`
+- Multiple channels: `/now-playing/siriushits1,thepulse,2`
+- Channel numbers: `/now-playing/2,5,17`
+
+**Features:**
+- Accepts single channel ID or comma-separated list
+- Handles channel names, IDs, and Sirius channel numbers
+- Returns structured JSON with current track information
+- Includes proper error handling for invalid channels
 
 ## Technical Implementation
 

@@ -15,6 +15,8 @@ Then in a player that supports HLS (QuickTime, VLC, ffmpeg, etc) you can access 
 
 You can also get simplified channel information in JSON format at http://127.0.0.1:8888/channel/<channel_id> which returns the channel ID, number, name, and image URL.
 
+Additionally, you can get now-playing information for channels at http://127.0.0.1:8888/now-playing/<channel_ids> where channel_ids can be a single channel ID or comma-separated list of channel IDs.
+
 Here's a list of some of the channel IDs:
 ```
 ID                  | Num  | Name                         

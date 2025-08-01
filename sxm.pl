@@ -863,6 +863,59 @@ sub get_segment {
     return $response->content;
 }
 
+sub get_now_playing {
+    my ($self, $channel_ids) = @_;
+    
+    # Validate input
+    if (!$channel_ids) {
+        main::log_error('No channel IDs provided for now-playing request');
+        return undef;
+    }
+    
+    # Convert input to comma-separated string
+    my $channel_id_string;
+    if (ref($channel_ids) eq 'ARRAY') {
+        $channel_id_string = join(',', @$channel_ids);
+    } else {
+        $channel_id_string = $channel_ids;
+    }
+    
+    main::log_debug("Fetching now-playing information for channels: $channel_id_string");
+    
+    # Ensure authentication
+    if (!$self->is_session_authenticated() && !$self->authenticate()) {
+        main::log_error('Unable to authenticate for now-playing request');
+        return undef;
+    }
+    
+    # Build the now-playing API URL (different from the standard module pattern)
+    my $url = 'https://player.siriusxm.com/rest/v2/experience/now-playing/ids';
+    my $uri = URI->new($url);
+    $uri->query_form(channelIds => $channel_id_string);
+    
+    main::log_trace("GET now-playing request to: $uri");
+    
+    my $response = $self->{ua}->get($uri);
+    
+    if (!$response->is_success) {
+        main::log_error("Received status code " . $response->code . " for now-playing request");
+        return undef;
+    }
+    
+    my $content = $response->decoded_content;
+    my $data;
+    eval {
+        $data = $self->{json}->decode($content);
+    };
+    if ($@) {
+        main::log_error("Error decoding JSON for now-playing request: $@");
+        return undef;
+    }
+    
+    main::log_trace("Now-playing data received: " . $self->{json}->encode($data));
+    return $data;
+}
+
 sub get_channels {
     my $self = shift;
     
@@ -1154,6 +1207,27 @@ sub handle_http_request {
         eval { $client->send_response($response); };
         if ($@) {
             main::log_warn("Error sending authentication state response: $@");
+        }
+    }
+    elsif ($path =~ /^\/now-playing\/(.+)$/) {
+        # Handle now-playing information requests
+        my $channel_ids = $1;
+        
+        main::log_debug("Now-playing request for channels: $channel_ids");
+        
+        my $now_playing_data = $sxm->get_now_playing($channel_ids);
+        if ($now_playing_data) {
+            my $json_data = $sxm->{json}->encode($now_playing_data);
+            my $response = HTTP::Response->new(200);
+            $response->content_type('application/json');
+            $response->header('Connection', 'close');
+            $response->content($json_data);
+            eval { $client->send_response($response); };
+            if ($@) {
+                main::log_warn("Error sending now-playing response: $@");
+            }
+        } else {
+            send_error_response($client, 500, 'Internal Server Error');
         }
     }
     else {
