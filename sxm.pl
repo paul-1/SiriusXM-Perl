@@ -875,9 +875,22 @@ sub get_now_playing {
     # Convert input to comma-separated string
     my $channel_id_string;
     if (ref($channel_ids) eq 'ARRAY') {
-        $channel_id_string = join(',', @$channel_ids);
+        # Filter out empty elements
+        my @filtered_ids = grep { defined $_ && $_ ne '' } @$channel_ids;
+        if (@filtered_ids == 0) {
+            main::log_error('No valid channel IDs provided for now-playing request');
+            return undef;
+        }
+        $channel_id_string = join(',', @filtered_ids);
     } else {
+        # Handle single string input
         $channel_id_string = $channel_ids;
+        # Trim whitespace
+        $channel_id_string =~ s/^\s+|\s+$//g;
+        if ($channel_id_string eq '') {
+            main::log_error('Empty channel ID provided for now-playing request');
+            return undef;
+        }
     }
     
     main::log_debug("Fetching now-playing information for channels: $channel_id_string");
@@ -1213,6 +1226,9 @@ sub handle_http_request {
         # Handle now-playing information requests
         my $channel_ids = $1;
         
+        # URL decode the channel IDs
+        $channel_ids = uri_unescape($channel_ids);
+        
         main::log_debug("Now-playing request for channels: $channel_ids");
         
         my $now_playing_data = $sxm->get_now_playing($channel_ids);
@@ -1227,7 +1243,7 @@ sub handle_http_request {
                 main::log_warn("Error sending now-playing response: $@");
             }
         } else {
-            send_error_response($client, 500, 'Internal Server Error');
+            send_error_response($client, 400, 'Bad Request - Invalid channel IDs or authentication failed');
         }
     }
     else {
