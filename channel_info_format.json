@@ -1,249 +1,307 @@
 ###This is the current format of the channel json output.
 
 {
-"adBreakDuration": "190",
-"adRepEnabled": false,
-"aodShowCount": 0,
-"categories": {
-  "categories": [
-    {
-      "categoryGuid": "eee456a1-670a-89c4-ec54-178be86850cc",
-      "isPrimary": true,
-      "key": "NHL_PBP",
-      "name": "NHL Play-by-Play",
-      "order": 23,
-      "shortName": "NHL PxP"
-    }
-  ]
-},
-"channelContentType": "non-music",
-"channelGuid": "31ebdfc0-dc1e-5ade-bc9c-6bb6dda1d46a",
-"channelId": "9319",
-"channelNumber": "942",
-"clientBufferDuration": 18000,
-"darkBackgroundColor": "12233C",
-"disableRecommendations": false,
-"esid": "2990",
-"fastEnabled": false,
-"geoRestrictions": "1",
-"images": {
-  "images": [
-    {
-      "height": 2160,
-      "name": "background",
-      "relativeUrl": "%Image%/images/chan/f8/813b9c-5ecd-059f-2342-69d7f1e757dd.jpg",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/f8/813b9c-5ecd-059f-2342-69d7f1e757dd.jpg",
-      "width": 3840
-    },
-    {
-      "height": 1080,
-      "name": "background",
-      "relativeUrl": "%Image%/images/chan/62/f28ecc-4e4e-96e0-463a-e1042578d01e.jpg",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/62/f28ecc-4e4e-96e0-463a-e1042578d01e.jpg",
-      "width": 1920
-    },
-    {
-      "height": 720,
-      "name": "color channel logo (on dark)",
-      "relativeUrl": "%Image%/images/chan/b8/51c8fe-dd5a-6311-6946-509fedd9981d.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/b8/51c8fe-dd5a-6311-6946-509fedd9981d.png",
-      "width": 900
-    },
-    {
-      "height": 720,
-      "name": "color channel logo (on dark)",
-      "relativeUrl": "%Image%/images/chan/82/297628-02e5-58e7-597c-a5b5a38a339c.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/82/297628-02e5-58e7-597c-a5b5a38a339c.png",
-      "width": 720
-    },
-    {
-      "height": 520,
-      "name": "color channel logo (on dark)",
-      "relativeUrl": "%Image%/images/chan/b3/26815b-bb7c-2318-ad2d-e4392ec1071d.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/b3/26815b-bb7c-2318-ad2d-e4392ec1071d.png",
-      "width": 520
-    },
-    {
-      "height": 320,
-      "name": "color channel logo (on dark)",
-      "relativeUrl": "%Image%/images/chan/2e/0bbf93-693c-9883-8be5-0ea7137cd767.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/2e/0bbf93-693c-9883-8be5-0ea7137cd767.png",
-      "width": 400
-    },
-    {
-      "height": 256,
-      "name": "color channel logo (on dark)",
-      "relativeUrl": "%Image%/images/chan/1b/f673c2-1a21-0b29-d560-80507eb3e419.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/1b/f673c2-1a21-0b29-d560-80507eb3e419.png",
-      "width": 320
-    },
-    {
-      "height": 180,
-      "name": "color channel logo (on dark)",
-      "relativeUrl": "%Image%/images/chan/59/ff10ab-09f5-ceb0-5998-c328f52897ab.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/59/ff10ab-09f5-ceb0-5998-c328f52897ab.png",
-      "width": 180
-    },
-    {
-      "height": 144,
-      "name": "color channel logo (on dark)",
-      "relativeUrl": "%Image%/images/chan/fd/950258-bb7a-ffec-9db0-3cff78479903.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/fd/950258-bb7a-ffec-9db0-3cff78479903.png",
-      "width": 180
-    },
-    {
-      "height": 150,
-      "name": "color channel logo (on dark)",
-      "relativeUrl": "%Image%/images/chan/fd/950258-bb7a-ffec-9db0-3cff78479903.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/fd/950258-bb7a-ffec-9db0-3cff78479903.png",
-      "width": 150
-    },
-    {
-      "height": 546,
-      "name": "color logo on blue",
-      "relativeUrl": "%Image%/images/chan/6d/45974f-4bbc-d552-6ed2-05b42288a24b.jpg",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/6d/45974f-4bbc-d552-6ed2-05b42288a24b.jpg",
-      "width": 546
-    },
-    {
-      "height": 564,
-      "name": "everest od listing channel background",
-      "relativeUrl": "%Image%/images/chan/06/c07160-d60e-df71-9187-42f777ee2dee.jpg",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/06/c07160-d60e-df71-9187-42f777ee2dee.jpg",
-      "width": 2880
-    },
-    {
-      "height": 1080,
-      "name": "everest tile channel background",
-      "relativeUrl": "%Image%/images/chan/1d/b7be6e-3b87-a858-11ff-4a4e1e3ea3fa.jpg",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/1d/b7be6e-3b87-a858-11ff-4a4e1e3ea3fa.jpg",
-      "width": 1920
-    },
-    {
-      "height": 1080,
-      "name": "everest tile channel thumb background",
-      "relativeUrl": "%Image%/images/chan/26/d8bdf8-c429-b209-61e7-b9949586cce1.jpg",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/26/d8bdf8-c429-b209-61e7-b9949586cce1.jpg",
-      "width": 1920
-    },
-    {
-      "height": 720,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/90/2a8863-9c4a-3928-70dd-5daaee2d6173.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/90/2a8863-9c4a-3928-70dd-5daaee2d6173.png",
-      "width": 900
-    },
-    {
-      "height": 384,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/4c/bf05cf-f334-8670-5bc7-730e543abaff.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/4c/bf05cf-f334-8670-5bc7-730e543abaff.png",
-      "width": 480
-    },
-    {
-      "height": 320,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/df/ee116c-d43c-b40b-b71a-7549e0547bd6.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/df/ee116c-d43c-b40b-b71a-7549e0547bd6.png",
-      "width": 400
-    },
-    {
-      "height": 256,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/31/541b19-6af6-93a5-9899-94cd9d718209.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/31/541b19-6af6-93a5-9899-94cd9d718209.png",
-      "width": 320
-    },
-    {
-      "height": 320,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/ea/8443a8-4828-5ecf-5fa1-8fe43975ff50.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/ea/8443a8-4828-5ecf-5fa1-8fe43975ff50.png",
-      "width": 320
-    },
-    {
-      "height": 192,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/8c/8cbe3b-5630-21ba-b377-11e1faad0dd4.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/8c/8cbe3b-5630-21ba-b377-11e1faad0dd4.png",
-      "width": 240
-    },
-    {
-      "height": 240,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/bf/bf4bee-65e2-a104-7d3e-88ceb0d33b4d.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/bf/bf4bee-65e2-a104-7d3e-88ceb0d33b4d.png",
-      "width": 240
-    },
-    {
-      "height": 144,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/11/efb15a-8fb3-71ea-3097-a28addb07669.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/11/efb15a-8fb3-71ea-3097-a28addb07669.png",
-      "width": 180
-    },
-    {
-      "height": 128,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/81/406cb2-6f6c-c600-0d39-289adf22fc05.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/81/406cb2-6f6c-c600-0d39-289adf22fc05.png",
-      "width": 160
-    },
-    {
-      "height": 150,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/11/efb15a-8fb3-71ea-3097-a28addb07669.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/11/efb15a-8fb3-71ea-3097-a28addb07669.png",
-      "width": 150
-    },
-    {
-      "height": 96,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/76/6e4afd-60ba-643e-be9a-459f4954eb70.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/76/6e4afd-60ba-643e-be9a-459f4954eb70.png",
-      "width": 120
-    },
-    {
-      "height": 120,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/d1/eccaaa-7c55-5e2e-7faa-d71ae2117801.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/d1/eccaaa-7c55-5e2e-7faa-d71ae2117801.png",
-      "width": 120
-    },
-    {
-      "height": 64,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/6c/dc16af-c59f-b02c-cb2f-2034e915b114.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/6c/dc16af-c59f-b02c-cb2f-2034e915b114.png",
-      "width": 80
-    },
-    {
-      "height": 80,
-      "name": "list view channel logo",
-      "relativeUrl": "%Image%/images/chan/e5/72eabf-31b8-a308-284f-73b05b8fcbdb.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/e5/72eabf-31b8-a308-284f-73b05b8fcbdb.png",
-      "width": 80
-    },
-    {
-      "height": 300,
-      "name": "logo on white background",
-      "relativeUrl": "%Image%/images/chan/0d/308949-e37f-6f5f-cf6f-3b74ed264e90.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/0d/308949-e37f-6f5f-cf6f-3b74ed264e90.png",
-      "width": 300
-    },
-    {
-      "height": 1920,
-      "name": "square everest tile channel background",
-      "relativeUrl": "%Image%/images/chan/c0/f6cb09-c0f5-c77a-394a-bb707581fb4e.jpg",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/c0/f6cb09-c0f5-c77a-394a-bb707581fb4e.jpg",
-      "width": 1920
-    },
-    {
-      "height": 248,
-      "name": "white logo",
-      "relativeUrl": "%Image%/images/chan/5d/2b3ff8-861e-2dde-5dd1-9bae29e91e33.png",
-      "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/5d/2b3ff8-861e-2dde-5dd1-9bae29e91e33.png",
-      "width": 424
-    }
-  ]
-},
+  "adBreakDuration": "190",
+  "adRepEnabled": false,
+  "aodShowCount": 0,
+  "categories": {
+    "categories": [
+      {
+        "categoryGuid": "d3c6a7ae-d66b-f033-72e1-61c6217702a0",
+        "isPrimary": true,
+        "key": "pop",
+        "name": "Pop",
+        "order": 5,
+        "shortName": "Pop"
+      },
+      {
+        "categoryGuid": "a8721de7-7f56-32a1-c3a9-35170626902f",
+        "isPrimary": false,
+        "key": "discovery",
+        "name": "New Music Discovery",
+        "order": 17,
+        "shortName": "Discover"
+      },
+      {
+        "categoryGuid": "c658bf31-f2e4-3d04-91f0-c6b1d750bfa9",
+        "isPrimary": false,
+        "key": "10s",
+        "name": "The 2010s Decade",
+        "order": 2,
+        "shortName": "10s"
+      },
+      {
+        "categoryGuid": "6fb74436-6b5d-3bfd-d92f-5f2360e3ea66",
+        "isPrimary": false,
+        "key": "hits",
+        "name": "Today's Hits",
+        "order": 12,
+        "shortName": "Hits"
+      }
+    ]
+  },
+  "channelContentType": "music",
+  "channelGuid": "9e8d6f72-0b59-85cf-a222-b18d38acdc0f",
+  "channelId": "thepulse",
+  "channelNumber": "5",
+  "clientBufferDuration": 18000,
+  "darkBackgroundColor": "000A84",
+  "disableRecommendations": false,
+  "esid": "1050",
+  "fastEnabled": false,
+  "geoRestrictions": "0",
+  "images": {
+    "images": [
+      {
+        "height": 2160,
+        "name": "background",
+        "relativeUrl": "%Image%/images/chan/5e/605eb3-a040-ed5d-87b1-8b54ef56ec8e.jpg",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/5e/605eb3-a040-ed5d-87b1-8b54ef56ec8e.jpg",
+        "width": 3840
+      },
+      {
+        "height": 1080,
+        "name": "background",
+        "relativeUrl": "%Image%/images/chan/ce/59a0de-9d03-e4eb-2863-e175015943b1.jpg",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/ce/59a0de-9d03-e4eb-2863-e175015943b1.jpg",
+        "width": 1920
+      },
+      {
+        "height": 720,
+        "name": "color channel logo (on dark)",
+        "relativeUrl": "%Image%/images/chan/78/e24e15-6c43-7e1e-6d56-b12d10f58c92.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/78/e24e15-6c43-7e1e-6d56-b12d10f58c92.png",
+        "width": 900
+      },
+      {
+        "height": 720,
+        "name": "color channel logo (on dark)",
+        "relativeUrl": "%Image%/images/chan/62/62cd7c-69fc-6e06-a3a1-b1982189e4d2.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/62/62cd7c-69fc-6e06-a3a1-b1982189e4d2.png",
+        "width": 720
+      },
+      {
+        "height": 520,
+        "name": "color channel logo (on dark)",
+        "relativeUrl": "%Image%/images/chan/27/01eb99-53d7-6919-8727-530cca23035d.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/27/01eb99-53d7-6919-8727-530cca23035d.png",
+        "width": 520
+      },
+      {
+        "height": 320,
+        "name": "color channel logo (on dark)",
+        "relativeUrl": "%Image%/images/chan/73/8a1bfd-b984-6154-e0b6-7c5fc3d7c4ba.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/73/8a1bfd-b984-6154-e0b6-7c5fc3d7c4ba.png",
+        "width": 400
+      },
+      {
+        "height": 256,
+        "name": "color channel logo (on dark)",
+        "relativeUrl": "%Image%/images/chan/75/f95387-997c-164d-b052-bf908e802cc9.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/75/f95387-997c-164d-b052-bf908e802cc9.png",
+        "width": 320
+      },
+      {
+        "height": 144,
+        "name": "color channel logo (on dark)",
+        "relativeUrl": "%Image%/images/chan/e0/5a25b0-8fdf-aa75-018c-69ed833dc8bc.png",
+        "satId": 21,
+        "satVersion": 3,
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/e0/5a25b0-8fdf-aa75-018c-69ed833dc8bc.png",
+        "width": 180
+      },
+      {
+        "height": 180,
+        "name": "color channel logo (on dark)",
+        "relativeUrl": "%Image%/images/chan/ef/83b127-e1a1-32c6-f020-cf15340fee1f.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/ef/83b127-e1a1-32c6-f020-cf15340fee1f.png",
+        "width": 180
+      },
+      {
+        "height": 150,
+        "name": "color channel logo (on dark)",
+        "relativeUrl": "%Image%/images/chan/e0/5a25b0-8fdf-aa75-018c-69ed833dc8bc.png",
+        "satId": 21,
+        "satVersion": 3,
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/e0/5a25b0-8fdf-aa75-018c-69ed833dc8bc.png",
+        "width": 150
+      },
+      {
+        "height": 546,
+        "name": "color logo on blue",
+        "relativeUrl": "%Image%/images/chan/e6/56c01b-5062-5bb5-00ac-e596808a547c.jpg",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/e6/56c01b-5062-5bb5-00ac-e596808a547c.jpg",
+        "width": 546
+      },
+      {
+        "height": 564,
+        "name": "everest od listing channel background",
+        "relativeUrl": "%Image%/images/chan/b9/96c019-6788-4df8-4312-4350cc4fe593.jpg",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/b9/96c019-6788-4df8-4312-4350cc4fe593.jpg",
+        "width": 2880
+      },
+      {
+        "height": 1080,
+        "name": "everest tile channel background",
+        "relativeUrl": "%Image%/images/chan/03/9f1f6e-1a80-f9c6-a28b-cff7026045c7.jpg",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/03/9f1f6e-1a80-f9c6-a28b-cff7026045c7.jpg",
+        "width": 1920
+      },
+      {
+        "height": 1080,
+        "name": "everest tile channel thumb background",
+        "relativeUrl": "%Image%/images/chan/32/b07636-30b1-0230-0ce0-7830b683b4a2.jpg",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/32/b07636-30b1-0230-0ce0-7830b683b4a2.jpg",
+        "width": 1920
+      },
+      {
+        "height": 720,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/7b/591bd6-bd45-d011-b15a-927945e68514.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/7b/591bd6-bd45-d011-b15a-927945e68514.png",
+        "width": 900
+      },
+      {
+        "height": 384,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/8e/8dea6f-1e57-76b0-ccdb-66fcb702a855.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/8e/8dea6f-1e57-76b0-ccdb-66fcb702a855.png",
+        "width": 480
+      },
+      {
+        "height": 320,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/1b/be5872-1164-9084-db06-34202d2c1590.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/1b/be5872-1164-9084-db06-34202d2c1590.png",
+        "width": 400
+      },
+      {
+        "height": 320,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/9c/1af8da-daeb-de0a-ab8f-78a60d483f21.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/9c/1af8da-daeb-de0a-ab8f-78a60d483f21.png",
+        "width": 320
+      },
+      {
+        "height": 256,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/eb/66489e-4cfb-4977-913f-47995a7f09b4.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/eb/66489e-4cfb-4977-913f-47995a7f09b4.png",
+        "width": 320
+      },
+      {
+        "height": 192,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/6b/37762b-4ab7-56a3-760c-4143264a9265.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/6b/37762b-4ab7-56a3-760c-4143264a9265.png",
+        "width": 240
+      },
+      {
+        "height": 240,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/ad/f6eae2-813e-c699-612e-215af39004d3.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/ad/f6eae2-813e-c699-612e-215af39004d3.png",
+        "width": 240
+      },
+      {
+        "height": 144,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/00/75925a-af63-bda6-2c6f-29ba60297f6a.png",
+        "satId": 21,
+        "satVersion": 3,
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/00/75925a-af63-bda6-2c6f-29ba60297f6a.png",
+        "width": 180
+      },
+      {
+        "height": 128,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/8c/949f31-a8af-2a84-f8ec-b944270d4d53.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/8c/949f31-a8af-2a84-f8ec-b944270d4d53.png",
+        "width": 160
+      },
+      {
+        "height": 150,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/00/75925a-af63-bda6-2c6f-29ba60297f6a.png",
+        "satId": 21,
+        "satVersion": 3,
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/00/75925a-af63-bda6-2c6f-29ba60297f6a.png",
+        "width": 150
+      },
+      {
+        "height": 120,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/2f/37b4a4-6eb2-229f-eb29-63983ad2f646.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/2f/37b4a4-6eb2-229f-eb29-63983ad2f646.png",
+        "width": 120
+      },
+      {
+        "height": 96,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/e4/167a86-ebd0-89da-f98c-daf2d29e3c5b.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/e4/167a86-ebd0-89da-f98c-daf2d29e3c5b.png",
+        "width": 120
+      },
+      {
+        "height": 80,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/2b/c14ad2-02de-c491-6011-67ee82d75b07.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/2b/c14ad2-02de-c491-6011-67ee82d75b07.png",
+        "width": 80
+      },
+      {
+        "height": 64,
+        "name": "list view channel logo",
+        "relativeUrl": "%Image%/images/chan/9c/d2e94c-b4b5-e87d-45d9-100576d114ae.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/9c/d2e94c-b4b5-e87d-45d9-100576d114ae.png",
+        "width": 80
+      },
+      {
+        "height": 300,
+        "name": "logo on white background",
+        "relativeUrl": "%Image%/images/chan/b0/ff7de2-2e75-4f9c-b99b-4a9b321e9149.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/b0/ff7de2-2e75-4f9c-b99b-4a9b321e9149.png",
+        "width": 300
+      },
+      {
+        "height": 1920,
+        "name": "square everest tile channel background",
+        "relativeUrl": "%Image%/images/chan/c9/ee5d98-e9a2-1bae-ddcb-bb9015e01e15.jpg",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/c9/ee5d98-e9a2-1bae-ddcb-bb9015e01e15.jpg",
+        "width": 1920
+      },
+      {
+        "height": 248,
+        "name": "white logo",
+        "relativeUrl": "%Image%/images/chan/17/222f5d-40a7-f829-1593-a829f6650bd1.png",
+        "url": "http://pri.art.prod.streaming.siriusxm.com/images/chan/17/222f5d-40a7-f829-1593-a829f6650bd1.png",
+        "width": 424
+      }
+    ]
+  },
+  "inactivityTimeout": 28800,
+  "ipOnly": true,
+  "isAvailable": true,
+  "isBizMature": false,
+  "isFavorite": false,
+  "isMature": false,
+  "isMySxm": false,
+  "isPersonalized": false,
+  "isPlayByPlay": false,
+  "lightBackgroundColor": "d3f354",
+  "liveVideoEligible": false,
+  "mediumDescription": "Hear today's pop music to get you through your day.",
+  "name": "The Pulse",
+  "pivotEnabled": true,
+  "satOnly": false,
+  "shortDescription": "Today's pop music",
+  "shortName": "Pulse",
+  "siriusChannelNumber": "5",
+  "sortOrder": 40,
+  "spanishContent": false,
+  "streamingName": "Today's pop music",
+  "subscribed": true,
+  "url": "https://player.siriusxm.com/live/ThePulse",
+  "xmChannelNumber": "5",
+  "xmServiceId": "26"
+}

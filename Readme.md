@@ -1,7 +1,17 @@
 # SiriusXM
 
 This is a SiriusXM Proxy implementation in Perl.
-  Original Python code is based from https://github.com/PaulWebster/SiriusXM
+  Original Python code is based from https://github.com/andrew0/SiriusXM
+  Copilot did the heavy lifting for the conversion.
+
+.. warning:: Designed for PERSONAL USE ONLY
+
+    ``sxm`` is a 100% unofficial project and you use it at your own risk.
+    It is designed to be used for personal use with a small number of users
+    listening to it at once. Similar to playing music over a speak from the
+    radio directly. Using ``sxm.pl`` in any corporate setting, to
+    attempt to pirate music, or to try to make a profit off your subscription
+    may result in you getting in legal trouble.
 
 This script creates a server that serves HLS streams for SiriusXM channels. To use it, pass your SiriusXM username and password and a port to run the server on. For example, you start the server by running:
 `perl sxm.pl myuser mypassword -p 8888`
@@ -10,6 +20,8 @@ You can see a list of the channels by setting the -l or --list flag:
 `perl sxm.pl  myuser mypassword -l`
 
 If you are in Canada then add --canada to the command line
+
+
 
 Then in a player that supports HLS (QuickTime, VLC, ffmpeg, etc) you can access a channel at http://127.0.0.1:8888/channel.m3u8 where "channel" is the channel name, ID, or Sirius channel number.
 
