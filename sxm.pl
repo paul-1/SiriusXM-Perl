@@ -13,8 +13,9 @@ sxm.pl - SiriusXM proxy server
         -p, --port PORT         Server port (default: 9999)
         -ca, --canada           Use Canadian region
         -e, --env               Use SXM_USER and SXM_PASS environment variables
-        -v, --verbose LEVEL     Set logging level (ERROR, WARN, INFO, DEBUG, TRACE)
+        -v, --verbose LEVEL     Set Log4perl logging level (ERROR, WARN, INFO, DEBUG, TRACE)
         -q, --quality QUALITY   Audio quality: High (256k, default), Med (96k), Low (64k)
+        --logfile FILE          Log file location (default: /var/log/sxmproxy.log)
         -h, --help              Show this help message
 
 =head1 DESCRIPTION
@@ -44,7 +45,10 @@ use Pod::Usage;
 use POSIX qw(strftime);
 use Time::HiRes qw(time);
 use File::Basename;
+use File::Path qw(make_path);
 use Encode qw(decode encode);
+use Log::Log4perl;
+use Log::Log4perl::Level;
 
 # Network and HTTP modules  
 use LWP::UserAgent;
@@ -89,25 +93,132 @@ my %CONFIG = (
     verbose      => LOG_INFO,
     help         => 0,
     quality      => 'High',
+    logfile      => '/var/log/sxmproxy.log',
 );
 
 # Global state
 my $HTTP_DAEMON;
 my $SIRIUS_XM;
 our $RUNNING = 1;
+my $LOGGER;
 
 #=============================================================================
 # Logging functions
 #=============================================================================
 
+sub init_logging {
+    my ($verbose_level, $logfile) = @_;
+    
+    # Map our log levels to Log4perl levels
+    my @level_mapping = qw(ERROR WARN INFO DEBUG TRACE);
+    my $log4perl_level = $level_mapping[$verbose_level] || 'INFO';
+    
+    # Create log directory if it doesn't exist
+    my $log_dir = dirname($logfile);
+    if (!-d $log_dir) {
+        eval {
+            make_path($log_dir, { mode => 0755 });
+        };
+        if ($@) {
+            warn "Warning: Could not create log directory $log_dir: $@\n";
+            warn "Falling back to console-only logging\n";
+            $logfile = undef;  # Disable file logging
+        }
+    }
+    
+    # Check if we can write to the log file
+    if ($logfile) {
+        my $can_write = 0;
+        if (-f $logfile) {
+            $can_write = -w $logfile;
+        } else {
+            # Try to create and write to the file
+            if (open(my $test_fh, '>', $logfile)) {
+                close($test_fh);
+                $can_write = 1;
+            }
+        }
+        
+        if (!$can_write) {
+            warn "Warning: Cannot write to log file $logfile\n";
+            warn "Falling back to console-only logging\n";
+            $logfile = undef;  # Disable file logging
+        }
+    }
+    
+    # Configure Log4perl
+    my $log4perl_conf = "
+        log4perl.rootLogger = $log4perl_level, console" . ($logfile ? ", logfile" : "") . "
+        
+        # Console appender
+        log4perl.appender.console = Log::Log4perl::Appender::Screen
+        log4perl.appender.console.stderr = 0
+        log4perl.appender.console.layout = Log::Log4perl::Layout::PatternLayout
+        log4perl.appender.console.layout.ConversionPattern = %d{dd.MMM yyyy HH:mm:ss} <%p>: %m%n
+    ";
+    
+    # Add file appender if logfile is available
+    if ($logfile) {
+        $log4perl_conf .= "
+        # File appender with basic rotation support
+        log4perl.appender.logfile = Log::Log4perl::Appender::File
+        log4perl.appender.logfile.filename = $logfile
+        log4perl.appender.logfile.mode = append
+        log4perl.appender.logfile.layout = Log::Log4perl::Layout::PatternLayout
+        log4perl.appender.logfile.layout.ConversionPattern = %d{dd.MMM yyyy HH:mm:ss} <%p> [%c]: %m%n
+        
+        # Note: For log rotation, consider using Log::Dispatch::FileRotate
+        # or external tools like logrotate with the following configuration:
+        # /var/log/sxmproxy.log {
+        #     daily
+        #     rotate 7
+        #     compress
+        #     delaycompress
+        #     missingok
+        #     notifempty
+        #     copytruncate
+        # }
+        ";
+    }
+    
+    # Initialize Log4perl
+    Log::Log4perl->init(\$log4perl_conf);
+    
+    # Get logger instance
+    $LOGGER = Log::Log4perl->get_logger('SiriusXM');
+    
+    # Log initialization message
+    if ($logfile && -w $logfile) {
+        $LOGGER->info("Log4perl initialized - console and file logging to $logfile");
+    } else {
+        $LOGGER->info("Log4perl initialized - console logging only");
+    }
+}
+
 sub log_message {
     my ($level, $message) = @_;
-    return if $level > $CONFIG{verbose};
     
-    my $timestamp = strftime('%d.%b %Y %H:%M:%S', gmtime);
-    my $level_name = qw(ERROR WARN INFO DEBUG TRACE)[$level];
+    # If Log4perl is not initialized, fall back to original method
+    if (!$LOGGER) {
+        return if $level > $CONFIG{verbose};
+        my $timestamp = strftime('%d.%b %Y %H:%M:%S', gmtime);
+        my $level_name = qw(ERROR WARN INFO DEBUG TRACE)[$level];
+        printf "%s <%s>: %s\n", $timestamp, $level_name, $message;
+        return;
+    }
     
-    printf "%s <%s>: %s\n", $timestamp, $level_name, $message;
+    # Use Log4perl
+    if ($level == LOG_ERROR) {
+        $LOGGER->error($message);
+    } elsif ($level == LOG_WARN) {
+        $LOGGER->warn($message);
+    } elsif ($level == LOG_INFO) {
+        $LOGGER->info($message);
+    } elsif ($level == LOG_DEBUG) {
+        $LOGGER->debug($message);
+    } elsif ($level == LOG_TRACE) {
+        $LOGGER->trace($message);
+    }
 }
 
 sub log_error { log_message(LOG_ERROR, shift) }
@@ -1204,6 +1315,7 @@ sub parse_arguments {
                 die "Invalid quality level: $value. Use: High, Med, Low\n";
             }
         },
+        'logfile=s'     => \$CONFIG{logfile},
         'help|h'        => \$help_text,
     ) or pod2usage(2);
     
@@ -1343,6 +1455,9 @@ sub start_server {
 
 sub main {
     parse_arguments();
+    
+    # Initialize logging with Log4perl
+    init_logging($CONFIG{verbose}, $CONFIG{logfile});
     
     log_info("Starting SiriusXM Perl proxy v$VERSION");
     
