@@ -598,7 +598,7 @@ sub get_playlist_variant_url {
     # Check if this is a master playlist with quality variants
     if ($content =~ /#EXT-X-STREAM-INF/) {
         main::log_debug("Master playlist detected in variant URL, selecting quality variant");
-        my $variant_url = $self->select_quality_variant($content, $url);
+        my $variant_url = $self->select_quality_variant($content, $url, $CONFIG{quality});
         if ($variant_url) {
             main::log_info("Selected quality variant: $variant_url");
             return $variant_url;
@@ -702,7 +702,7 @@ sub get_playlist {
 }
 
 sub select_quality_variant {
-    my ($self, $master_playlist, $base_url) = @_;
+    my ($self, $master_playlist, $base_url, $quality) = @_;
     
     # Define bandwidth mappings for quality levels
     my %quality_bandwidths = (
@@ -711,14 +711,14 @@ sub select_quality_variant {
         'Low'  => 70400,
     );
     
-    # Get desired bandwidth from global config
-    my $desired_bandwidth = $quality_bandwidths{$main::CONFIG{quality}};
+    # Get desired bandwidth from quality parameter
+    my $desired_bandwidth = $quality_bandwidths{$quality};
     if (!$desired_bandwidth) {
-        main::log_error("Invalid quality setting: $main::CONFIG{quality}");
+        main::log_error("Invalid quality setting: $quality");
         return undef;
     }
     
-    main::log_debug("Selecting quality variant for: $main::CONFIG{quality} ($desired_bandwidth bps)");
+    main::log_debug("Selecting quality variant for: $quality ($desired_bandwidth bps)");
     
     my @lines = split /\n/, $master_playlist;
     my %variants = ();
@@ -777,7 +777,7 @@ sub select_quality_variant {
     }
     
     if ($selected_url) {
-        main::log_info("Selected quality variant: $main::CONFIG{quality} -> $selected_bandwidth bps");
+        main::log_info("Selected quality variant: $quality -> $selected_bandwidth bps");
         return $selected_url;
     } else {
         main::log_error("No quality variants found in master playlist");
