@@ -58,10 +58,12 @@ if (-f $log_file) {
     print "   ✓ Log file created\n";
     
     my $log_content = read_file($log_file);
-    if ($log_content =~ /Log4perl initialized - console and file logging/) {
+    if ($log_content =~ /Log4perl v\d+\.\d+.*console and file logging/) {
         print "   ✓ Log4perl initialization message in file\n";
     } else {
         print "   ✗ Log4perl initialization message missing from file\n";
+        print "     Expected: Log4perl v<version> ... console and file logging\n";
+        print "     Found: " . (split /\n/, $log_content)[0] . "\n";
     }
     
     if ($log_content =~ /\[SiriusXM\]/) {
@@ -126,10 +128,12 @@ if ($console_fallback =~ /Warning: Cannot write to log file/ &&
 print "\n8. Testing default log file behavior...\n";
 my $default_log_result = `./sxm.pl test test --verbose INFO -l 2>&1 | head -4`;
 if ($default_log_result =~ /Warning: Cannot write to log file \/var\/log\/sxmproxy\.log/ &&
-    $default_log_result =~ /Log4perl initialized - console logging only/) {
+    $default_log_result =~ /Log4perl v\d+\.\d+.*console logging only/) {
     print "   ✓ Default log file path used and fallback works\n";
 } else {
     print "   ✗ Default log file behavior incorrect\n";
+    print "     Debug output:\n";
+    print "     " . join("     ", split /\n/, $default_log_result) . "\n";
 }
 
 # Test 9: All log levels work

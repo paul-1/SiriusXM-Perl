@@ -109,8 +109,14 @@ my $LOGGER;
 sub init_logging {
     my ($verbose_level, $logfile) = @_;
     
+    # Check Log4perl version for TRACE level compatibility
+    # TRACE was introduced in Log4perl 1.26, so fallback to DEBUG for older versions
+    my $log4perl_version = $Log::Log4perl::VERSION || '0.00';
+    my $has_trace = ($log4perl_version >= 1.26);
+    
     # Map our log levels to Log4perl levels
-    my @level_mapping = qw(ERROR WARN INFO DEBUG TRACE);
+    my @level_mapping = qw(ERROR WARN INFO DEBUG);
+    push @level_mapping, ($has_trace ? 'TRACE' : 'DEBUG');  # Use DEBUG as fallback for TRACE
     my $log4perl_level = $level_mapping[$verbose_level] || 'INFO';
     
     # Create log directory if it doesn't exist
@@ -187,11 +193,16 @@ sub init_logging {
     # Get logger instance
     $LOGGER = Log::Log4perl->get_logger('SiriusXM');
     
-    # Log initialization message
+    # Log initialization message with version compatibility info
+    my $version_info = "Log4perl v$log4perl_version";
+    if (!$has_trace) {
+        $version_info .= " (TRACE level using DEBUG fallback for v1.23 compatibility)";
+    }
+    
     if ($logfile && -w $logfile) {
-        $LOGGER->info("Log4perl initialized - console and file logging to $logfile");
+        $LOGGER->info("$version_info - console and file logging to $logfile");
     } else {
-        $LOGGER->info("Log4perl initialized - console logging only");
+        $LOGGER->info("$version_info - console logging only");
     }
 }
 
@@ -207,7 +218,11 @@ sub log_message {
         return;
     }
     
-    # Use Log4perl
+    # Check Log4perl version for TRACE compatibility
+    my $log4perl_version = $Log::Log4perl::VERSION || '0.00';
+    my $has_trace = ($log4perl_version >= 1.26);
+    
+    # Use Log4perl with version compatibility
     if ($level == LOG_ERROR) {
         $LOGGER->error($message);
     } elsif ($level == LOG_WARN) {
@@ -217,7 +232,12 @@ sub log_message {
     } elsif ($level == LOG_DEBUG) {
         $LOGGER->debug($message);
     } elsif ($level == LOG_TRACE) {
-        $LOGGER->trace($message);
+        if ($has_trace && $LOGGER->can('trace')) {
+            $LOGGER->trace($message);
+        } else {
+            # Fallback to DEBUG level for Log4perl 1.23 and earlier
+            $LOGGER->debug("[TRACE] $message");
+        }
     }
 }
 
