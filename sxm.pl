@@ -671,32 +671,6 @@ sub get_playlist {
     
     my $content = $response->decoded_content;
     
-    # Check if this is a master playlist with quality variants
-    if ($content =~ /#EXT-X-STREAM-INF/) {
-        main::log_debug("Master playlist detected, selecting quality variant");
-        my $variant_url = $self->select_quality_variant($content, $url);
-        if ($variant_url) {
-            main::log_info("Selected quality variant: $variant_url");
-            # Fetch the selected variant playlist
-            my $variant_uri = URI->new($variant_url);
-            $variant_uri->query_form(
-                token    => $token,
-                consumer => 'k2',
-                gupId    => $gup_id,
-            );
-            
-            my $variant_response = $self->{ua}->get($variant_uri);
-            if (!$variant_response->is_success) {
-                main::log_error("Failed to fetch quality variant: " . $variant_response->code);
-                return undef;
-            }
-            $content = $variant_response->decoded_content;
-            $url = $variant_url; # Update URL for base path calculation
-        } else {
-            main::log_warn("Failed to select quality variant, using original content");
-        }
-    }
-    
     # Calculate and store base path for this channel
     my $base_url = $url;
     $base_url =~ s/\/[^\/]+$//;
