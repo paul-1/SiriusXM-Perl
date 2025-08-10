@@ -48,18 +48,6 @@ use Time::HiRes qw(time);
 use File::Basename;
 use File::Path qw(make_path);
 use Encode qw(decode encode);
-use Log::Log4perl;
-
-# Try to load Log::Dispatch::FileRotate for log rotation support
-my $HAS_FILE_ROTATE = 0;
-eval {
-    require Log::Dispatch::FileRotate;
-    $HAS_FILE_ROTATE = 1;
-};
-if ($HAS_FILE_ROTATE) {
-    Log::Dispatch::FileRotate->import();
-}
-use Log::Log4perl::Level;
 
 # Network and HTTP modules  
 use LWP::UserAgent;
@@ -77,6 +65,35 @@ use MIME::Base64;
 
 # Signal handling
 use sigtrap 'handler' => \&signal_handler, qw(INT QUIT TERM);
+
+# Setup Logging
+use Cwd qw(abs_path);
+use File::Basename qw(dirname);
+my $script_full_path = abs_path($0);
+my $script_directory = dirname($script_full_path);
+
+print $script_directory;
+unshift @INC, "$script_directory/lib";
+
+my $HAS_LOG4PERL = 0;
+eval {
+    require Log::Log4perl;
+    require Log::Log4perl::Level;
+    $HAS_LOG4PERL = 1;
+};
+if ($HAS_LOG4PERL) {
+    Log::Log4perl->import();
+}
+
+# Try to load Log::Dispatch::FileRotate for log rotation support
+my $HAS_FILE_ROTATE = 0;
+eval {
+    require Log::Dispatch::FileRotate;
+    $HAS_FILE_ROTATE = 1;
+};
+if ($HAS_FILE_ROTATE) {
+    Log::Dispatch::FileRotate->import();
+}
 
 #=============================================================================
 # Global variables and constants
@@ -166,7 +183,7 @@ sub init_logging {
     # Configure Log4perl
     my $log4perl_conf = "
         log4perl.rootLogger = $log4perl_level, console" . ($logfile ? ", logfile" : "") . "
-        
+    
         # Console appender
         log4perl.appender.console = Log::Log4perl::Appender::Screen
         log4perl.appender.console.stderr = 0
@@ -184,7 +201,7 @@ sub init_logging {
         log4perl.appender.logfile.filename = $logfile
         log4perl.appender.logfile.mode = append
         log4perl.appender.logfile.size = 10*1024*1024
-        log4perl.appender.logfile.max = 7
+        log4perl.appender.logfile.max = 3
         log4perl.appender.logfile.layout = Log::Log4perl::Layout::PatternLayout
         log4perl.appender.logfile.layout.ConversionPattern = %d{dd.MMM yyyy HH:mm:ss} <%p> [%c]: %m%n
         ";
@@ -197,18 +214,6 @@ sub init_logging {
         log4perl.appender.logfile.mode = append
         log4perl.appender.logfile.layout = Log::Log4perl::Layout::PatternLayout
         log4perl.appender.logfile.layout.ConversionPattern = %d{dd.MMM yyyy HH:mm:ss} <%p> [%c]: %m%n
-        
-        # Note: For log rotation, install Log::Dispatch::FileRotate or use external tools
-        # like logrotate with the following configuration:
-        # /var/log/sxmproxy.log {
-        #     daily
-        #     rotate 7
-        #     compress
-        #     delaycompress
-        #     missingok
-        #     notifempty
-        #     copytruncate
-        # }
         ";
         }
     }
