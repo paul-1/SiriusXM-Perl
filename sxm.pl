@@ -180,14 +180,11 @@ sub init_logging {
             # Use Log::Dispatch::FileRotate for automatic log rotation
             $log4perl_conf .= "
         # File appender with automatic rotation support
-        log4perl.appender.logfile = Log::Log4perl::Appender::DispatchWrapper
-        log4perl.appender.logfile.dispatcher = Log::Dispatch::FileRotate
+        log4perl.appender.logfile = Log::Dispatch::FileRotate
         log4perl.appender.logfile.filename = $logfile
         log4perl.appender.logfile.mode = append
         log4perl.appender.logfile.size = 10*1024*1024
         log4perl.appender.logfile.max = 7
-        log4perl.appender.logfile.DatePattern = yyyy-MM-dd
-        log4perl.appender.logfile.TZ = local
         log4perl.appender.logfile.layout = Log::Log4perl::Layout::PatternLayout
         log4perl.appender.logfile.layout.ConversionPattern = %d{dd.MMM yyyy HH:mm:ss} <%p> [%c]: %m%n
         ";
