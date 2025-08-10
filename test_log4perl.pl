@@ -158,6 +158,20 @@ if (-f $nested_log_file) {
     print "   ✗ Directory creation failed\n";
 }
 
+# Test 18: Log::Dispatch::FileRotate availability check
+print "\n18. Testing Log::Dispatch::FileRotate availability...\n";
+my $filerotate_available = 0;
+eval {
+    require Log::Dispatch::FileRotate;
+    $filerotate_available = 1;
+};
+if ($filerotate_available) {
+    print "   ✓ Log::Dispatch::FileRotate is available (automatic rotation enabled)\n";
+} else {
+    print "   ⚠ Log::Dispatch::FileRotate not available (basic file logging only)\n";
+    print "     Install Log::Dispatch::FileRotate for automatic log rotation\n";
+}
+
 print "\n" . "=" x 45 . "\n";
 print "Log4perl Integration Test Summary:\n";
 print "- Log4perl successfully integrated\n";
@@ -165,6 +179,7 @@ print "- File and console logging working\n";
 print "- Log level filtering functional\n";
 print "- Fallback mechanisms operational\n";
 print "- Component information included in file logs\n";
+print "- File rotation support: " . ($filerotate_available ? "Available" : "Install Log::Dispatch::FileRotate") . "\n";
 
 print "\nNew Logging Features:\n";
 print "  --logfile FILE                    # Specify custom log file\n";
@@ -172,6 +187,7 @@ print "  Default: /var/log/sxmproxy.log    # Default log location\n";
 print "  Console + File logging            # Dual output\n";
 print "  Log level filtering               # Proper level hierarchy\n";
 print "  Component identification          # [SiriusXM] in file logs\n";
+print "  Log::Dispatch::FileRotate         # Automatic rotation when available\n";
 
 print "\nUsage Examples:\n";
 print "  ./sxm.pl user pass --logfile /tmp/my.log\n";

@@ -16,6 +16,7 @@ sxm.pl - SiriusXM proxy server
         -v, --verbose LEVEL     Set Log4perl logging level (ERROR, WARN, INFO, DEBUG, TRACE)
         -q, --quality QUALITY   Audio quality: High (256k, default), Med (96k), Low (64k)
         --logfile FILE          Log file location (default: /var/log/sxmproxy.log)
+                                Supports automatic rotation with Log::Dispatch::FileRotate
         -h, --help              Show this help message
 
 =head1 DESCRIPTION
@@ -48,6 +49,16 @@ use File::Basename;
 use File::Path qw(make_path);
 use Encode qw(decode encode);
 use Log::Log4perl;
+
+# Try to load Log::Dispatch::FileRotate for log rotation support
+my $HAS_FILE_ROTATE = 0;
+eval {
+    require Log::Dispatch::FileRotate;
+    $HAS_FILE_ROTATE = 1;
+};
+if ($HAS_FILE_ROTATE) {
+    Log::Dispatch::FileRotate->import();
+}
 use Log::Log4perl::Level;
 
 # Network and HTTP modules  
@@ -165,16 +176,33 @@ sub init_logging {
     
     # Add file appender if logfile is available
     if ($logfile) {
-        $log4perl_conf .= "
-        # File appender with basic rotation support
+        if ($HAS_FILE_ROTATE) {
+            # Use Log::Dispatch::FileRotate for automatic log rotation
+            $log4perl_conf .= "
+        # File appender with automatic rotation support
+        log4perl.appender.logfile = Log::Log4perl::Appender::DispatchWrapper
+        log4perl.appender.logfile.dispatcher = Log::Dispatch::FileRotate
+        log4perl.appender.logfile.filename = $logfile
+        log4perl.appender.logfile.mode = append
+        log4perl.appender.logfile.size = 10*1024*1024
+        log4perl.appender.logfile.max = 7
+        log4perl.appender.logfile.DatePattern = yyyy-MM-dd
+        log4perl.appender.logfile.TZ = local
+        log4perl.appender.logfile.layout = Log::Log4perl::Layout::PatternLayout
+        log4perl.appender.logfile.layout.ConversionPattern = %d{dd.MMM yyyy HH:mm:ss} <%p> [%c]: %m%n
+        ";
+        } else {
+            # Fallback to basic file appender when Log::Dispatch::FileRotate is not available
+            $log4perl_conf .= "
+        # File appender (basic - Log::Dispatch::FileRotate not available)
         log4perl.appender.logfile = Log::Log4perl::Appender::File
         log4perl.appender.logfile.filename = $logfile
         log4perl.appender.logfile.mode = append
         log4perl.appender.logfile.layout = Log::Log4perl::Layout::PatternLayout
         log4perl.appender.logfile.layout.ConversionPattern = %d{dd.MMM yyyy HH:mm:ss} <%p> [%c]: %m%n
         
-        # Note: For log rotation, consider using Log::Dispatch::FileRotate
-        # or external tools like logrotate with the following configuration:
+        # Note: For log rotation, install Log::Dispatch::FileRotate or use external tools
+        # like logrotate with the following configuration:
         # /var/log/sxmproxy.log {
         #     daily
         #     rotate 7
@@ -185,6 +213,7 @@ sub init_logging {
         #     copytruncate
         # }
         ";
+        }
     }
     
     # Initialize Log4perl
@@ -199,8 +228,17 @@ sub init_logging {
         $version_info .= " (TRACE level using DEBUG fallback for v1.23 compatibility)";
     }
     
+    my $rotation_info = "";
+    if ($logfile) {
+        if ($HAS_FILE_ROTATE) {
+            $rotation_info = " with automatic rotation (10MB max, 7 files)";
+        } else {
+            $rotation_info = " (install Log::Dispatch::FileRotate for automatic rotation)";
+        }
+    }
+    
     if ($logfile && -w $logfile) {
-        $LOGGER->info("$version_info - console and file logging to $logfile");
+        $LOGGER->info("$version_info - console and file logging to $logfile$rotation_info");
     } else {
         $LOGGER->info("$version_info - console logging only");
     }
